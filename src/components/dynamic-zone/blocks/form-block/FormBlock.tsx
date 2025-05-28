@@ -133,6 +133,7 @@ export default function FormBlock({
                             formTitle={data.formTitle}
                             formDescription={data.formDescription}
                             textPlaceholder={data.textPlaceholder}
+                            emailTo={data.emailTo}
                         />
                     )
                 }

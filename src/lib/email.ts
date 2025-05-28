@@ -8,9 +8,11 @@ export const smtpOptions = {
     },
 }
 
-export type ToEmailT = "hi@sfu-kras.ru" | "mmazaeva@sfu-kras.ru" | "mkozlova@sfu-kras.ru" | "gi-bs@sfu-kras.ru"
+export type ToEmailT = "hi@sfu-kras.ru" | "mmazaeva@sfu-kras.ru" | "mkozlova@sfu-kras.ru" | "gi-bs@sfu-kras.ru";
 
-export function getToEmail(pathname: string): ToEmailT {
+export function getToEmail(pathname: string, emailTo?: string | null): string {
+    if (!!emailTo) return emailTo;
+
     const page = pathname.split("/")[2] as string | undefined
     switch (page) {
         case undefined:

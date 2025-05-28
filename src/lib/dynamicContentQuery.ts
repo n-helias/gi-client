@@ -314,6 +314,7 @@ export const dynamicContentQuery = `
     formTitle
     formDescription
     textPlaceholder
+    emailTo
   }
   ...on ComponentContentDocRequestForm {
     title

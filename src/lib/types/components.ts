@@ -508,6 +508,7 @@ export const FormBlockCompT = z.object({
   formTitle: z.string().nullable(),
   formDescription: z.string().nullable(),
   textPlaceholder: z.string().nullable(),
+  emailTo: z.string().nullable(),
 })
 export type FormBlockCompT = z.infer<typeof FormBlockCompT>;
 

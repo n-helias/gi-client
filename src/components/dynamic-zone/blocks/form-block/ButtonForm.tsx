@@ -19,6 +19,7 @@ type Props = {
     formTitle: string | null,
     formDescription: string | null,
     textPlaceholder: string | null,
+    emailTo?: string | null,
 }
 
 export default function ButtonForm({
@@ -27,6 +28,7 @@ export default function ButtonForm({
     formTitle,
     formDescription,
     textPlaceholder,
+    emailTo
 }: Props) {
     const dict = useDictionary()
 
@@ -63,7 +65,7 @@ export default function ButtonForm({
 
     const handleAction = (formData: FormData) => {
         sendEmailAction({
-            to: getToEmail(path),
+            to: getToEmail(path, emailTo),
             path,
             username: formData.get("username") as string,
             email: formData.get("email") as string,
