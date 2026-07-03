@@ -1,4 +1,5 @@
 FROM node:22.11.0-alpine AS base
+RUN apk add --no-cache ca-certificates && update-ca-certificates
 
 # Install dependencies only when needed
 FROM base AS deps

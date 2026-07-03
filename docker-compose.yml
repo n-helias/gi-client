@@ -24,6 +24,7 @@ services:
     restart: always
     volumes:
       - client_next_cache:/app/.next/cache
+      - /etc/ssl/certs:/etc/ssl/certs:ro
     ports:
       - 3000:3000
     networks:
