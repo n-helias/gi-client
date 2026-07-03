@@ -13,8 +13,7 @@ COPY package.json yarn.lock* package-lock.json* pnpm-lock.yaml* ./
 # Omit --production flag for TypeScript devDependencies
 RUN yarn global add pnpm
 
-RUN pnpm config set ignore-scripts false
-RUN pnpm install --no-frozen-lockfile
+RUN pnpm install --no-frozen-lockfile --dangerously-allow-all-builds
 
 RUN pnpm i --config.arch=x64 --config.platform=linux --config.libc=musl sharp@0.33.3
 
