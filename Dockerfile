@@ -15,9 +15,6 @@ RUN yarn global add pnpm
 
 RUN pnpm install --no-frozen-lockfile --dangerously-allow-all-builds
 
-RUN pnpm i --config.arch=x64 --config.platform=linux --config.libc=musl sharp@0.33.3
-
-
 # Step 2. Rebuild the source code only when needed
 FROM base AS builder
 
