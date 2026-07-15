@@ -41,4 +41,3 @@ networks:
 
 volumes:
   client_next_cache:
-    external: true
