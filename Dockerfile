@@ -1,5 +1,6 @@
 FROM node:22.23.1-alpine AS base
 RUN apk add --no-cache ca-certificates && update-ca-certificates
+RUN npm install -g pnpm@10
 
 # Install dependencies only when needed
 FROM base AS deps
@@ -11,30 +12,16 @@ WORKDIR /app
 # Install dependencies based on the preferred package manager
 COPY package.json yarn.lock* package-lock.json* pnpm-lock.yaml* ./
 # Omit --production flag for TypeScript devDependencies
-RUN yarn global add pnpm
-
-RUN pnpm install --no-frozen-lockfile --dangerously-allow-all-builds
+RUN pnpm install --frozen-lockfile
 
 # Step 2. Rebuild the source code only when needed
 FROM base AS builder
 
 WORKDIR /app
 
-# Omit --production flag for TypeScript devDependencies
-RUN yarn global add pnpm
-
+# 1) deps, 2) source, 3) env, 4) build — order matters
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
-
-COPY src ./src
-COPY public ./public
-COPY next.config.js .
-COPY global.d.ts .
-COPY sentry.client.config.ts .
-COPY sentry.server.config.ts .
-COPY sentry.edge.config.ts .
-COPY tsconfig.json .
-COPY tailwind.config.ts postcss.config.js ./
 
 # Environment variables must be present at build time
 # https://github.com/vercel/next.js/discussions/14030
@@ -73,10 +60,8 @@ ENV SMTP_FROM_EMAIL=${SMTP_FROM_EMAIL}
 # Next.js collects completely anonymous telemetry data about general usage. Learn more here: https://nextjs.org/telemetry
 # Uncomment the following line to disable telemetry at build time
 ENV NEXT_TELEMETRY_DISABLED 1
-# Build Next.js based on the preferred package manager
-RUN pnpm build
 
-COPY . .
+RUN pnpm build
 
 # Step 2. Production image, copy all the files and run next
 FROM base AS runner
